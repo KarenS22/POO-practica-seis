@@ -207,8 +207,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         menuGestionarDirectorio.setText("Gestionar Directorio");
 
+        menuCrear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Plus.16.png"))); // NOI18N
         menuCrear.setText("Crear");
 
+        menuItemCrearCarpeta.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        menuItemCrearCarpeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/folder-new.16.png"))); // NOI18N
         menuItemCrearCarpeta.setText("Carpeta");
         menuItemCrearCarpeta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -217,6 +220,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         menuCrear.add(menuItemCrearCarpeta);
 
+        menuItemCrearArchivo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        menuItemCrearArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/document-new.16.png"))); // NOI18N
         menuItemCrearArchivo.setText("Archivo");
         menuItemCrearArchivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -227,6 +232,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         menuGestionarDirectorio.add(menuCrear);
 
+        menuItemEliminar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        menuItemEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Folder-delete.16.png"))); // NOI18N
         menuItemEliminar.setText("Eliminar");
         menuItemEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -235,6 +242,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         menuGestionarDirectorio.add(menuItemEliminar);
 
+        menuItemRenombrar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        menuItemRenombrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rename.16.png"))); // NOI18N
         menuItemRenombrar.setText("Renombrar");
         menuItemRenombrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -243,7 +252,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         menuGestionarDirectorio.add(menuItemRenombrar);
 
+        menuItemSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        menuItemSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Delete.16.png"))); // NOI18N
         menuItemSalir.setText("Salir");
+        menuItemSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemSalirActionPerformed(evt);
+            }
+        });
         menuGestionarDirectorio.add(menuItemSalir);
 
         jMenuBar1.add(menuGestionarDirectorio);
@@ -354,36 +370,44 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void menuItemCrearCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemCrearCarpetaActionPerformed
         String ruta = txtRuta.getText();
         String nombre = JOptionPane.showInputDialog(this, "Ingrese el nombre de la carpeta");
-        String r = ruta + "/" + nombre;
-        File file = new File(r);
-        if (!file.exists()) {
-            boolean b = controladorDirectorio.crearCarpeta(file);
-            if (b) {
-                JOptionPane.showMessageDialog(this, "La carpeta " + nombre + " ha sido creada");
-                btnListarTodoActionPerformed(evt);
+        if (nombre != null && !"".equals(nombre)) {
+            String r = ruta + "/" + nombre;
+            File file = new File(r);
+            if (!file.exists()) {
+                boolean b = controladorDirectorio.crearCarpeta(file);
+                if (b) {
+                    JOptionPane.showMessageDialog(this, "La carpeta " + nombre + " ha sido creada");
+                    btnListarTodoActionPerformed(evt);
+                } else {
+                    JOptionPane.showMessageDialog(this, "La carpeta " + nombre + " no ha sido creada");
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "La carpeta " + nombre + " no ha sido creada");
+                JOptionPane.showMessageDialog(this, "La carpeta " + nombre + " ya existe");
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "La carpeta " + nombre + " ya existe");
+        }else{
+            JOptionPane.showMessageDialog(this, "No se creo la carpeta " + nombre+ " porque el nombre esta vacio");
         }
     }//GEN-LAST:event_menuItemCrearCarpetaActionPerformed
 
     private void menuItemCrearArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemCrearArchivoActionPerformed
         String ruta = txtRuta.getText();
         String nombre = JOptionPane.showInputDialog(this, "Ingrese el nombre del archivo");
-        String r = ruta + "/" + nombre;
-        File file = new File(r);
-        if (!file.exists()) {
-            boolean b = controladorDirectorio.crearArchivo(file);
-            if (b) {
-                JOptionPane.showMessageDialog(this, "El archivo " + nombre + " ha sido creado");
-                btnListarTodoActionPerformed(evt);
+        if (nombre != null && !"".equals(nombre)) {
+            String r = ruta + "/" + nombre;
+            File file = new File(r);
+            if (!file.exists()) {
+                boolean b = controladorDirectorio.crearArchivo(file);
+                if (b) {
+                    JOptionPane.showMessageDialog(this, "El archivo " + nombre + " ha sido creado");
+                    btnListarTodoActionPerformed(evt);
+                } else {
+                    JOptionPane.showMessageDialog(this, "El archivo " + nombre + " no ha sido creado");
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "El archivo " + nombre + " no ha sido creado");
+                JOptionPane.showMessageDialog(this, "El archivo " + nombre + " ya existe");
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "El archivo " + nombre + " ya existe");
+        } else{
+            JOptionPane.showMessageDialog(this, "No se creo el archivo " + nombre + " porque el nombre esta vacio");
         }
     }//GEN-LAST:event_menuItemCrearArchivoActionPerformed
 
@@ -408,7 +432,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(this, "El archivo " + nodoSeleccionado + " no ha sido eliminado");
                 }
-            } else{
+            } else {
                 JOptionPane.showMessageDialog(this, "El archivo " + nodoSeleccionado + " no ha sido eliminado");
 
             }
@@ -431,23 +455,30 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             rutaAntigua = rutaBase + r;
 
             String nombre = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre del archivo");
-            String rN = "";
-            for (int i = 1; i < rutas.length - 1; i++) {
-                rN = rN + "/" + rutas[i];
-            }
-            String nuevoNombre = rutaBase + rN + "/" + nombre;
-            boolean b = controladorDirectorio.renombrarFile(rutaAntigua, nuevoNombre);
-            if (b) {
-                JOptionPane.showMessageDialog(this, "El archivo " + nodoSeleccionado + " ha sido renombrado");
-                btnListarTodoActionPerformed(evt);
-            } else {
-                JOptionPane.showMessageDialog(this, "El archivo " + nodoSeleccionado + " no ha sido renombrado");
-            }
-
+            if (nombre != null && !"".equals(nombre)) {
+                String rN = "";
+                for (int i = 1; i < rutas.length - 1; i++) {
+                    rN = rN + "/" + rutas[i];
+                }
+                String nuevoNombre = rutaBase + rN + "/" + nombre;
+                boolean b = controladorDirectorio.renombrarFile(rutaAntigua, nuevoNombre);
+                if (b) {
+                    JOptionPane.showMessageDialog(this, "El archivo " + nodoSeleccionado + " ha sido renombrado");
+                    btnListarTodoActionPerformed(evt);
+                } else {
+                    JOptionPane.showMessageDialog(this, "El archivo " + nodoSeleccionado + " no ha sido renombrado");
+                }
+            } else{
+            JOptionPane.showMessageDialog(this, "No se renombro el archivo " + nodoSeleccionado + " porque el nuevo nombre esta vacio");
+        }
         } else {
             JOptionPane.showMessageDialog(this, "No se ha seleccionado ningun archivo");
         }
     }//GEN-LAST:event_menuItemRenombrarActionPerformed
+
+    private void menuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSalirActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_menuItemSalirActionPerformed
 
     /**
      * @param args the command line arguments
