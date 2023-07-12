@@ -105,7 +105,6 @@
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder justification="2" title="Gestionar Directorio">
               <Font PropertyName="font" name="Segoe UI" size="14" style="0"/>
-              <Color PropertyName="color" blue="ff" green="ff" red="ff" type="rgb"/>
             </TitledBorder>
           </Border>
         </Property>
@@ -226,6 +225,7 @@
           <SubComponents>
             <Component class="javax.swing.JTextArea" name="jTextArea2">
               <Properties>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="columns" type="int" value="5"/>
                 <Property name="rows" type="int" value="5"/>
               </Properties>

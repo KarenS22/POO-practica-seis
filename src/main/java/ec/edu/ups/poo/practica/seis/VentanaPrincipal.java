@@ -59,7 +59,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestionar Directorio", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14), new java.awt.Color(255, 255, 255))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestionar Directorio", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
 
         txtRuta.setToolTipText("Ingrese la ruta ");
         txtRuta.addActionListener(new java.awt.event.ActionListener() {
@@ -84,6 +84,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jTextArea2.setEditable(false);
         jTextArea2.setColumns(5);
         jTextArea2.setRows(5);
         jScrollPane3.setViewportView(jTextArea2);
@@ -397,12 +398,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
             String ruta = "";
             ruta = rutaBase + r;
-             boolean b = controladorDirectorio.eliminarFile(ruta);
-            if (b) {
-                JOptionPane.showMessageDialog(this, "El archivo " + nodoSeleccionado + " ha sido eliminado");
-                btnListarTodoActionPerformed(evt);
-            } else {
+            int c = JOptionPane.showConfirmDialog(this, "Esta seguro que desea eliminar el archivo");
+            if (c == JOptionPane.YES_OPTION) {
+
+                boolean b = controladorDirectorio.eliminarFile(ruta);
+                if (b) {
+                    JOptionPane.showMessageDialog(this, "El archivo " + nodoSeleccionado + " ha sido eliminado");
+                    btnListarTodoActionPerformed(evt);
+                } else {
+                    JOptionPane.showMessageDialog(this, "El archivo " + nodoSeleccionado + " no ha sido eliminado");
+                }
+            } else{
                 JOptionPane.showMessageDialog(this, "El archivo " + nodoSeleccionado + " no ha sido eliminado");
+
             }
         } else {
             JOptionPane.showMessageDialog(this, "No se ha seleccionado ningun archivo");
@@ -410,8 +418,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuItemEliminarActionPerformed
 
     private void menuItemRenombrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemRenombrarActionPerformed
-        
-                String rutaBase = txtRuta.getText();
+
+        String rutaBase = txtRuta.getText();
         DefaultMutableTreeNode nodoSeleccionado = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
         if (nodoSeleccionado != null) {
             TreeNode[] rutas = nodoSeleccionado.getPath();
@@ -421,10 +429,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
             String rutaAntigua = "";
             rutaAntigua = rutaBase + r;
-            
+
             String nombre = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre del archivo");
             String rN = "";
-            for (int i = 1; i < rutas.length-1; i++) {
+            for (int i = 1; i < rutas.length - 1; i++) {
                 rN = rN + "/" + rutas[i];
             }
             String nuevoNombre = rutaBase + rN + "/" + nombre;
@@ -435,7 +443,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "El archivo " + nodoSeleccionado + " no ha sido renombrado");
             }
-            
+
         } else {
             JOptionPane.showMessageDialog(this, "No se ha seleccionado ningun archivo");
         }
